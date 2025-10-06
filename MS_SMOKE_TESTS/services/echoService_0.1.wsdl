@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="echoService"
+		xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+		xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:tns="http://www.talend.org/service/"
+		targetNamespace="http://www.talend.org/service/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/">
+
+	<wsdl:types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="http://www.talend.org/service/">
+			<xsd:element name="echoServiceOperationRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="in" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="echoServiceOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="out" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperation">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="in" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="NewOperationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="out" type="xsd:string"></xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="echoServiceOperationRequest">
+		<wsdl:part name="parameters" element="tns:echoServiceOperationRequest"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="echoServiceOperationResponse">
+		<wsdl:part name="parameters" element="tns:echoServiceOperationResponse"></wsdl:part>
+	</wsdl:message>
+
+	<wsdl:message name="NewOperationRequest">
+		<wsdl:part name="parameters" element="tns:NewOperation"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="NewOperationResponse">
+		<wsdl:part name="parameters" element="tns:NewOperationResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="EchoMessage">
+		<wsdl:part name="parameters" element="tns:echoServiceOperationResponse"></wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="echoServicePortType">
+		<wsdl:operation name="echoServiceOperation">
+			<wsdl:input message="tns:echoServiceOperationRequest"></wsdl:input>
+			<wsdl:output message="tns:EchoMessage"></wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="echoServiceBinding" type="tns:echoServicePortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="echoServiceOperation">
+			<soap:operation soapAction="http://www.talend.org/service/echoServiceOperation" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="echoService">
+		<wsdl:port name="echoServicePort" binding="tns:echoServiceBinding">
+            <soap:address location="http://localhost:8090/services/echo"/>
+        </wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
